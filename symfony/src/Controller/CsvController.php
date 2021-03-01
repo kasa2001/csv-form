@@ -14,24 +14,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CsvController extends AbstractController
 {
-
-    private $formService;
-
-    public function CsvController(FormServiceInterface $formService)
-    {
-        $this->formService = $formService;
-    }
-
     /**
      * @Route("/csv-form", name="csv-form", methods={"GET"})
+     * @param FormServiceInterface $formService
      * @return Response
      */
-    public function form(): Response
+    public function form(FormServiceInterface $formService): Response
     {
         return $this->render(
             'form/form.html.twig',
             [
-                'form' => $this->formService->renderForm(
+                'form' => $formService->renderForm(
                     $this->createForm(
                         CsvFileUpload::class
                     )
@@ -42,11 +35,30 @@ class CsvController extends AbstractController
 
     /**
      * @Route("/csv-form", name="csv-form-post", methods={"POST"})
+     * @param FormServiceInterface $formService
      * @param Request $request
      * @return Response
      */
-    public function formAction(Request $request): Response
+    public function formAction(FormServiceInterface $formService,Request $request): Response
     {
+        $form = $this->createForm(CsvFileUpload::class);
 
+        if (($result = $formService->processForm($form, $request))) {
+            return $this->render(
+                'form/result.html.twig',
+                [
+                    'result' => $result
+                ]
+            );
+        }
+
+        return $this->render(
+            'form/form.html.twig',
+            [
+                'form' => $formService->renderForm(
+                    $form
+                )
+            ]
+        );
     }
 }

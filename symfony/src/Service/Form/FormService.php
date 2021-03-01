@@ -23,7 +23,13 @@ class FormService implements FormServiceInterface
 
     function processForm(FormInterface $form, Request $request)
     {
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            return 'sss';
+        }
+
+        return false;
     }
 
     function renderForm(FormInterface $form): FormView
