@@ -28,7 +28,7 @@ class CsvControllerTest extends WebTestCase
 
         $this->assertEquals(
             1,
-            $crawler->filter('input[name=file]')
+            $crawler->filter('input')
                 ->count()
         );
     }

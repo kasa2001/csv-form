@@ -6,6 +6,7 @@ namespace App\Service\Form;
 
 use App\Service\Form\Adapter\FormAdapterInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 
 class FormService implements FormServiceInterface
@@ -25,9 +26,9 @@ class FormService implements FormServiceInterface
 
     }
 
-    function renderForm(FormInterface $form)
+    function renderForm(FormInterface $form): FormView
     {
-
+        return $form->createView();
     }
 
 
