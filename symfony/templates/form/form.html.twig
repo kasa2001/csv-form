@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Form!{% endblock %}</title>
+    {% block stylesheets %}
+
+    {% endblock %}
+
+    {% block javascripts %}
+
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    {{ form_start(form) }}
+    <div class="error-msg">
+        {{ form_errors(form) }}
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.file) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.send) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+</body>
+</html>
