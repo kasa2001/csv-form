@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}Result!{% endblock %}</title>
     {% block stylesheets %}
 
     {% endblock %}
@@ -12,6 +12,46 @@
     {% endblock %}
 </head>
 <body>
-ok
+<div class="result">
+    <div class="error">
+        Error detect:
+        <br />
+        {% for key, value in result.data %}
+            {% if value.errors|length > 0 %}
+                Record: {{ key + 1 }}
+                Error message:
+                {% for key, value in value.errors %}
+                    {{ value.message }};
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="result">
+        <p>Financial report</p>
+        {% for key, value in result.data %}
+            {% if value.errors|length == 0 %}
+                <div class="record">
+                    {{ key + 1 }}
+                    {% for key, value in value.data %}
+                        <p>{{ key }} - {{ value }}</p>
+
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="group">
+        Financial report
+        {% for key, value in result.group %}
+            <div class="record">
+                {% for key, value in value %}
+                    <p>{{ key }}: $ {{ (value)|number_format(2, ',', ' ') }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
 </body>
 </html>

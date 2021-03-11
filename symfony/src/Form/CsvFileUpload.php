@@ -24,8 +24,7 @@ class CsvFileUpload extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '2048k',
-                        'mimeTypes' => ['text/csv'],
-                        'mimeTypesMessage' => 'Wrong file extension',
+                        'mimeTypesMessage' => 'Too big file',
                     ])
                 ],
             ]

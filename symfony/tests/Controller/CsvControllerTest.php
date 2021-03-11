@@ -58,19 +58,17 @@ class CsvControllerTest extends WebTestCase
      */
     public function testWrongCsvHeader()
     {
-        $files = [
-            new UploadedFile(
-                dirname(__DIR__) . "/files/wrong_csv.csv",
-                "wrong_csv.csv"
-            )
-        ];
-        $crawler = $this->client->request("POST", "csv-form", [], $files);
+        $this->client->request("GET", "csv-form");
+        $crawler = $this->client->submitForm('Send data', [
+            // to upload a file, the value must be the absolute file path
+            'csv_file_upload[file]' => dirname(__DIR__) . "/files/wrong_csv.csv",
+        ]);
 
-        $this->assertEquals(400, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         $this->assertEquals(
             1,
-            $crawler->filter('p:contains("Wrong csv header")')
+            $crawler->filter('li:contains("Wrong csv header")')
                 ->count()
         );
     }
@@ -80,13 +78,11 @@ class CsvControllerTest extends WebTestCase
      */
     public function testValidCsv()
     {
-        $files = [
-            new UploadedFile(
-                dirname(__DIR__) . "/files/good_csv.csv",
-                "good_csv.csv"
-            )
-        ];
-        $crawler = $this->client->request("POST", "csv-form", [], $files);
+        $this->client->request("GET", "csv-form");
+        $crawler = $this->client->submitForm('Send data', [
+            // to upload a file, the value must be the absolute file path
+            'csv_file_upload[file]' => dirname(__DIR__) . "/files/good_csv.csv",
+        ]);
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
